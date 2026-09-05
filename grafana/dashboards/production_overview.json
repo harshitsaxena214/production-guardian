@@ -1,0 +1,251 @@
+{
+  "id": null,
+  "uid": "production-guardian-overview",
+  "title": "🎬 Production Guardian — Production Overview",
+  "description": "NIGHTFALL production overview — system health, active incidents, and ingest status",
+  "tags": ["production-guardian", "nightfall", "overview"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "15s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Storage Utilization — INGEST-01",
+      "type": "gauge",
+      "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+      "targets": [
+        {
+          "expr": "production_guardian_storage_utilization{device=\"INGEST-01\",production=\"nightfall\"}",
+          "legendFormat": "Storage %",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "options": {
+        "reduceOptions": {"calcs": ["lastNotNull"]},
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "minVizWidth": 75,
+        "minVizHeight": 75
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 75},
+              {"color": "orange", "value": 85},
+              {"color": "red", "value": 90}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Ingest Throughput — INGEST-01",
+      "type": "gauge",
+      "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0},
+      "targets": [
+        {
+          "expr": "production_guardian_ingest_throughput_gbps{device=\"INGEST-01\",production=\"nightfall\"}",
+          "legendFormat": "GB/s",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "gbytes",
+          "min": 0,
+          "max": 2.5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "red", "value": null},
+              {"color": "orange", "value": 0.8},
+              {"color": "yellow", "value": 1.2},
+              {"color": "green", "value": 1.5}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Upload Queue Depth — INGEST-01",
+      "type": "gauge",
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+      "targets": [
+        {
+          "expr": "production_guardian_upload_queue_depth{device=\"INGEST-01\",production=\"nightfall\"}",
+          "legendFormat": "frames",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 100},
+              {"color": "orange", "value": 300},
+              {"color": "red", "value": 700}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Network Packet Loss",
+      "type": "gauge",
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
+      "targets": [
+        {
+          "expr": "production_guardian_packet_loss_pct{device=\"NET-EDGE-07\",production=\"nightfall\"}",
+          "legendFormat": "%",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 0.5},
+              {"color": "orange", "value": 2},
+              {"color": "red", "value": 5}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "Storage Utilization Over Time",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [
+        {
+          "expr": "production_guardian_storage_utilization{production=\"nightfall\"}",
+          "legendFormat": "{{device}}",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "pointSize": 4,
+            "showPoints": "auto"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "orange", "value": 85},
+              {"color": "red", "value": 92}
+            ]
+          },
+          "color": {"mode": "thresholds"}
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "Ingest Throughput Over Time",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [
+        {
+          "expr": "production_guardian_ingest_throughput_gbps{production=\"nightfall\"}",
+          "legendFormat": "{{device}}",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "gbytes",
+          "min": 0,
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Disk Write Latency Over Time",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "targets": [
+        {
+          "expr": "production_guardian_disk_write_latency_ms{production=\"nightfall\"}",
+          "legendFormat": "{{device}}",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "orange", "value": 80},
+              {"color": "red", "value": 120}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Upload Queue Depth Over Time",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "targets": [
+        {
+          "expr": "production_guardian_upload_queue_depth{production=\"nightfall\"}",
+          "legendFormat": "{{device}}",
+          "datasource": {"type": "prometheus"}
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 100},
+              {"color": "red", "value": 500}
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
